@@ -93,12 +93,15 @@ anthropic_api_key:
     secret: true
     help: What is the ANTHROPIC API KEY?
 
-
 openai_api_key:
     type: str
     secret: true
     help: What is the OPENAI API KEY?
 
+groq_api_key:
+    type: str
+    secret: true
+    help: What is the GROQ API KEY?
 
 litellm_master_key:
     type: str
