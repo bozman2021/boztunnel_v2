@@ -1,15 +1,21 @@
 
 model_list:
+  {% if anthropic_api_key %}
   - model_name: claude-3-opus ### RECEIVED MODEL NAME ###
     litellm_params: # all params accepted by litellm.completion() - https://docs.litellm.ai/docs/completion/input
       model: claude-3-opus-20240229 ### MODEL NAME sent to `litellm.completion()` ###
-      api_key: "os.environ/ANTHROPIC_API_KEY" # does os.getenv("AZURE_API_KEY_EU")
+      api_key: "${ANTHROPIC_API_KEY}" # does os.getenv("AZURE_API_KEY_EU")
+  {% endif %}
+  {% if openai_api_key %}
   - model_name: gpt-4o
     litellm_params:
       model: openai/gpt-4o
-      api_key: "os.environ/OPENAI_API_KEY"
+      api_key: "${OPENAI_API_KEY}"
+  {% endif %}
+  {% if groq_api_key %}
   - model_name: groq-llama-70b
     litellm_params:
       api_base: https://api.groq.com/openai/v1
-      api_key: "os.environ/GROQ_API_KEY"
+      api_key: "${GROQ_API_KEY}"
       model: openai/llama3-70b-8192
+   {% endif %}
