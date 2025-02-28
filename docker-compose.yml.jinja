@@ -65,7 +65,7 @@ services:
     command: --port 4000 --config /app/config.yaml
     env_file: .env
     environment:
-      - DATABASE_URL=postgresql://postgres:"${DB_SECRET_PWD}"@"${DB_NAME}":5432/litellm
+      - DATABASE_URL=postgresql://postgres:${DB_SECRET_PWD}@${DB_NAME}:5432/litellm
     networks:
       - {{network_name}}
 
