@@ -66,7 +66,7 @@ macOS and Linux:
 TUNNEL_NAME="boztunnel"
 DOMAIN_NAME="askboz.se"
 API_SUBDOMAIN="minime"
-APP_SUBDOMAIN="app"
+APP_SUBDOMAIN="chat"
 cloudflared tunnel create --credentials-file ./data/cloudflared/credentials.json $TUNNEL_NAME
 cloudflared tunnel route dns $TUNNEL_NAME $API_SUBDOMAIN.$DOMAIN_NAME
 cloudflared tunnel route dns $TUNNEL_NAME $APP_SUBDOMAIN.$DOMAIN_NAME
