@@ -57,7 +57,7 @@ services:
     volumes:
      - ${CONF_DIR-./conf}/conf/litellm/config.yaml:/app/config.yaml
     command: --port 4000 --config /app/config.yaml
-    env_file: .env.docker
+    env_file: .env
     environment:
       - DATABASE_URL=postgresql://postgres:"${DB_SECRET_PWD}"@"${DB_NAME}":5432/litellm
 
