@@ -39,7 +39,7 @@ db_secret_pwd:
     type: str
     secret: true
     help: What is password to set in PostgresDB?
-    default: "{{ A1K|ans_random|hash('sha256')|urlencode }}"
+    default: "{{ 999999|ans_random|hash('sha256')|urlencode }}"
 
     
 cloudflare_api_token:
