@@ -77,7 +77,16 @@ caddy_service_name:
     type: str
     help: What is the name of the Caddy service?
     default: caddy
+    
+llm_service_name:
+    type: str
+    help: What is the name of the LiteLLM service?
+    default: litellm
 
+webui_service_name:
+    type: str
+    help: What is the name of the OpenWebUI service?
+    default: openwebui
 
 #Removed in v2, defaulting to 8080
 #webui_port:
