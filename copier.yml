@@ -40,8 +40,7 @@ db_secret_pwd:
     secret: true
     help: What is password to set in PostgresDB?
     default: "{{ 999999|ans_random|hash('sha256')|urlencode }}"
-
-    
+  
 cloudflare_api_token:
     type: str
     secret: true
@@ -91,20 +90,22 @@ webui_service_name:
 anthropic_api_key:
     type: str
     secret: true
-    help: What is the ANTHROPIC API KEY?
     default: ""
+    help: What is the ANTHROPIC API KEY?
 
 openai_api_key:
     type: str
     secret: true
-    help: What is the OPENAI API KEY?
     default: ""
+    help: What is the OPENAI API KEY?
+
 
 groq_api_key:
     type: str
     secret: true
-    help: What is the GROQ API KEY?
     default: ""
+    help: What is the GROQ API KEY?
+
 
 litellm_master_key:
     type: str
