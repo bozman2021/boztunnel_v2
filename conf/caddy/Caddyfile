@@ -1,20 +1,20 @@
 *.$DOMAIN_NAME:443 {
 	tls {
-		dns cloudflare $CLOUDFLARE_API_TOKEN
+		dns cloudflare {$CLOUDFLARE_API_TOKEN}
 		resolvers 1.1.1.1
 	}
 
 	@apiValidApiKey {
-		host $API_SUBDOMAIN.$DOMAIN_NAME
-		header Authorization "Bearer $OLLAMA_API_KEY"
+		host {$API_SUBDOMAIN}.{$DOMAIN_NAME}
+		header Authorization "Bearer {$OLLAMA_API_KEY}"
 	}
 
 	@api {
-		host $API_SUBDOMAIN.$DOMAIN_NAME
+		host {$API_SUBDOMAIN}.{$DOMAIN_NAME}
 	}
 
 	handle @apiValidApiKey {
-		reverse_proxy $OLLAMA_URL
+		reverse_proxy {$OLLAMA_URL}
 	}
 
 	handle @api {
@@ -24,8 +24,16 @@
 		file_server
 	}
 
-	@app host $APP_SUBDOMAIN.$DOMAIN_NAME
-	reverse_proxy @app $WEBUI_SERVICE_NAME:8080
+	@app host {$APP_SUBDOMAIN}.{$DOMAIN_NAME}
+	reverse_proxy @app {$WEBUI_SERVICE_NAME}:8080
 
 	log
+}
+
+{$APP_SUBDOMAIN}.{$DOMAIN_NAME} {
+    reverse_proxy {$WEBUI_SERVICE_NAME}:3000
+}
+
+{$API_SUBDOMAIN}.{$DOMAIN_NAME} {
+    reverse_proxy {$LLM_SERVICE_NAME}:4000
 }
