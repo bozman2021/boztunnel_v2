@@ -17,6 +17,7 @@ services:
       # if you disable ollama then set the following to false
       - "ENABLE_OLLAMA_API=true"
       - "WEBUI_SECRET_KEY=${WEBUI_SECRET_KEY}"
+    hostname: {{webui_service_name}}
     volumes:
       - ${DATA_DIR-./data}/open-webui:/app/backend/data
     # Removed in v2, defaulting to 8080
@@ -37,6 +38,7 @@ services:
   {{db_service_name}}:
     image: postgres:15
     restart: unless-stopped
+    hostname: {{db_service_name}}
     # set shared memory limit when using docker-compose
     shm_size: 128mb
     volumes:
@@ -45,11 +47,14 @@ services:
       POSTGRES_PASSWORD: "${DB_SECRET_PWD}"
       POSTGRES_DB: "${DB_NAME}"
       PGDATA: /var/lib/postgresql/data/pgdata
+    networks:
+      - {{network_name}}
       
   #--- litellm ---
   {{llm_service_name}}:
     image: ghcr.io/berriai/litellm:main-latest
     restart: unless-stopped
+    hostname: {{llm_service_name}}
     depends_on:
       - {{db_service_name}}
     ports:
@@ -60,6 +65,8 @@ services:
     env_file: .env
     environment:
       - DATABASE_URL=postgresql://postgres:"${DB_SECRET_PWD}"@"${DB_NAME}":5432/litellm
+    networks:
+      - {{network_name}}
 
   #--- Caddy ---
   {{caddy_service_name}}:
@@ -67,6 +74,7 @@ services:
       context: ./images/caddy
       dockerfile: ./Dockerfile
     restart: unless-stopped
+    hostname: {{caddy_service_name}}
     depends_on:
       - {{webui_service_name}}
     environment:
@@ -98,6 +106,7 @@ services:
   {{cloudflared_service_name}}:
     image: cloudflare/cloudflared
     restart: unless-stopped
+    hostname: {{cloudflared_service_name}}
     depends_on:
       - {{caddy_service_name}}
     volumes:
