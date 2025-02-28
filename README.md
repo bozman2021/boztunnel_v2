@@ -3,6 +3,7 @@ With BozTunnel V2,
 Inspired from these sites:
 - **https://brainsteam.co.uk/2024/07/08/ditch-that-chatgpt-subscription-moving-to-pay-as-you-go-ai-usage-with-open-web-ui/**
 - **https://github.com/mitja/llamatunnel**
+- **https://youtu.be/Q5dG8g4-Sx0?t=1164**
 
 
 # Installation
