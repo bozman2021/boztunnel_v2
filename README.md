@@ -78,7 +78,7 @@ Note that you cannot manage this tunnel on the Cloudflare Dashboard. Instead, yo
 
 Create the project from the template with copier and answer the questions. If you forgot the tunnel id, you can find it in the data/cloudflared/credentials.json file or see it with cloudflared tunnel list.
 ````
-copier copy gh:bozman2021/boztunnel .
+copier copy gh:bozman2021/boztunnel_v2 .
 ````
 
 This will create a new directory in the STACK_DIR with the all the files necessary to run the tunnel.
