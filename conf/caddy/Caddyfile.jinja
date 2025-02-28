@@ -7,23 +7,23 @@
                 roll_keep_for 720h
 	}
 }
-*.$DOMAIN_NAME:443 {
+*.{{domain_name}}:443 {
 	tls {
 		dns cloudflare {$CLOUDFLARE_API_TOKEN}
 		resolvers 1.1.1.1
 	}
-        import subdomain-log *.$DOMAIN_NAME
+        import subdomain-log *.{{domain_name}}
 	@apiValidApiKey {
-		host {$API_SUBDOMAIN}.{$DOMAIN_NAME}
+		host {{api_subdomain}}.{{domain_name}}
 		header Authorization "Bearer {$OLLAMA_API_KEY}"
 	}
 
 	@api {
-		host {$API_SUBDOMAIN}.{$DOMAIN_NAME}
+		host {{api_subdomain}}.{{domain_name}}
 	}
 
 	handle @apiValidApiKey {
-		reverse_proxy {$OLLAMA_URL}
+		reverse_proxy {{ollama_url}}
 	}
 
 	handle @api {
@@ -33,26 +33,26 @@
 		file_server
 	}
 
-	@app host {$APP_SUBDOMAIN}.{$DOMAIN_NAME}
-	reverse_proxy @app {$WEBUI_SERVICE_NAME}:8080
+	@app host {{app_subdomain}}.{{domain_name}}
+	reverse_proxy @app {{webui_service_name}}:8080
 
 	log
 }
 
-{$APP_SUBDOMAIN}.{$DOMAIN_NAME} {
+{{app_subdomain}}.{{domain_name}} {
 	tls {
 		dns cloudflare {$CLOUDFLARE_API_TOKEN}
 		resolvers 1.1.1.1
 	}
-    import subdomain-log *.$DOMAIN_NAME
-    reverse_proxy {$WEBUI_SERVICE_NAME}:3000
+    import subdomain-log *.{{domain_name}}
+    reverse_proxy {{webui_service_name}}:8080
 }
 
-{$API_SUBDOMAIN}.{$DOMAIN_NAME} {
+{{api_subdomain}}.{{domain_name}} {
 	tls {
 		dns cloudflare {$CLOUDFLARE_API_TOKEN}
 		resolvers 1.1.1.1
 	}
-    import subdomain-log *.$DOMAIN_NAME
-    reverse_proxy {$LLM_SERVICE_NAME}:4000
+    import subdomain-log *.{{domain_name}}
+    reverse_proxy {{llm_service_name}}:4000
 }
