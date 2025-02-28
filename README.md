@@ -88,6 +88,10 @@ This will create a new directory in the STACK_DIR with the all the files necessa
 ````
 chmod 755 ./data/cloudflared/credentials.json
 ````
+**Create Internal Network in Docker**
+````
+docker network create backend
+````
 
 **Start the Services**
 
