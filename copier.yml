@@ -99,20 +99,17 @@ openai_api_key:
     default: ""
     help: What is the OPENAI API KEY?
 
-
 groq_api_key:
     type: str
     secret: true
     default: ""
     help: What is the GROQ API KEY?
 
-
 litellm_master_key:
     type: str
     secret: true
     help: What is the LITELLM MASTER KEY?
     default: "{{ 999999999999999999999999999999999|ans_random|hash('sha256')|urlencode }}"
-
 
 #Removed in v2, defaulting to 8080
 #webui_port:
