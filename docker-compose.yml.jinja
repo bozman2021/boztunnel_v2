@@ -61,7 +61,7 @@ services:
     ports:
        - 4000:4000
     volumes:
-     - ${CONF_DIR-./conf}/conf/litellm/config.yaml:/app/config.yaml
+     - ${CONF_DIR-./conf}/litellm/config.yaml:/app/config.yaml
     command: --port 4000 --config /app/config.yaml
     env_file: .env
     environment:
