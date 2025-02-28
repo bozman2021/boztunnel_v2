@@ -3,7 +3,10 @@
 networks:
   {{network_name}}:
     driver: bridge
-
+    name: {{network_name}}
+  backend:
+    name: backend
+    external: true
 services:
   #--- OpenWebUI  ---
   {{webui_service_name}}:
