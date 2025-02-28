@@ -1,0 +1,15 @@
+tunnel: boztunnel
+credentials-file: /etc/cloudflared/credentials.json
+
+ingress:
+  - hostname: 'app.askboz.se'
+    service: https://caddy:443
+    originRequest:
+      originServerName: '*.askboz.se'
+      # noTLSVerify: true
+      # disableChunkedEncoding: true
+  - hostname: 'api.askboz.se'
+    service: https://caddy:443
+    originRequest:
+      originServerName: '*.askboz.se'
+  - service: http_status:404 # default service
