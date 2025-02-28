@@ -1,18 +1,18 @@
-{
-        log {
-                output file /var/log/access.log {
-                        roll_size 1gb
-                        roll_keep 5
-                        roll_keep_for 720h
-                }
-        }
+(subdomain-log) {
+	log {
+		hostnames {args[0]}
+		output file /var/log/{args[0]}.log
+                roll_size 1gb
+                roll_keep 5
+                roll_keep_for 720h
+	}
 }
 *.$DOMAIN_NAME:443 {
 	tls {
 		dns cloudflare {$CLOUDFLARE_API_TOKEN}
 		resolvers 1.1.1.1
 	}
-
+        import subdomain-log *.$DOMAIN_NAME
 	@apiValidApiKey {
 		host {$API_SUBDOMAIN}.{$DOMAIN_NAME}
 		header Authorization "Bearer {$OLLAMA_API_KEY}"
@@ -44,6 +44,7 @@
 		dns cloudflare {$CLOUDFLARE_API_TOKEN}
 		resolvers 1.1.1.1
 	}
+    import subdomain-log *.$DOMAIN_NAME
     reverse_proxy {$WEBUI_SERVICE_NAME}:3000
 }
 
@@ -52,5 +53,6 @@
 		dns cloudflare {$CLOUDFLARE_API_TOKEN}
 		resolvers 1.1.1.1
 	}
+    import subdomain-log *.$DOMAIN_NAME
     reverse_proxy {$LLM_SERVICE_NAME}:4000
 }
