@@ -10,18 +10,57 @@ services:
     image: ghcr.io/open-webui/open-webui:main
     restart: unless-stopped
     environment:
-      - OLLAMA_API_BASE_URL=http://host.docker.internal:11434/api
-      - WEBUI_SECRET_KEY=${WEBUI_SECRET_KEY}
+      # after you 
+      # - "ENABLE_SIGNUP=false"
+      # if you disable ollama then remove the following line
+      - "OLLAMA_BASE_URL=${OLLAMA_URL}"
+      # if you disable ollama then set the following to false
+      - "ENABLE_OLLAMA_API=true"
+      - "WEBUI_SECRET_KEY=${WEBUI_SECRET_KEY}"
     volumes:
       - ${DATA_DIR-./data}/open-webui:/app/backend/data
-    {% if webui_port %}
+    # Removed in v2, defaulting to 8080
+    # {% if webui_port %}
+    # ports:
+    #  - ${WEBUI_PORT-3000}:8080
+    #{% endif %}
     ports:
-      - ${WEBUI_PORT-3000}:8080
-    {% endif %}
+      - 8080:8080    
     networks:
       - {{network_name}}
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
+    
+    #Removed in v2, defaulting to
+    #extra_hosts:
+    #  - "host.docker.internal:host-gateway"
+      
+  #--- Postegresql DB ---
+  {{db_service_name}}:
+    image: postgres:15
+    restart: unless-stopped
+    # set shared memory limit when using docker-compose
+    shm_size: 128mb
+    volumes:
+    - ${DATA_DIR-./data}/postgres:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: "${DB_SECRET_PWD}"
+      POSTGRES_DB: "${DB_NAME}"
+      PGDATA: /var/lib/postgresql/data/pgdata
+      
+  #--- litellm ---
+  {{llm_service_name}}:
+    image: ghcr.io/berriai/litellm:main-latest
+    restart: unless-stopped
+    depends_on:
+      - {{db_service_name}}
+    ports:
+       - 4000:4000
+    volumes:
+     - ${CONF_DIR-./conf}/conf/litellm/config.yaml:/app/config.yaml
+    command: --port 4000 --config /app/config.yaml
+    env_file: .env.docker
+    environment:
+      - DATABASE_URL=postgresql://postgres:"${DB_SECRET_PWD}"@"${DB_NAME}":5432/litellm
+
   #--- Caddy ---
   {{caddy_service_name}}:
     build:
@@ -39,17 +78,22 @@ services:
       - OLLAMA_API_KEY=${OLLAMA_API_KEY}
       - WEBUI_SERVICE_NAME=${WEBUI_SERVICE_NAME}
     volumes:
-      - ./conf/caddy/Caddyfile:/etc/caddy/Caddyfile
-      - ./conf/caddy/401.json:/srv/401.json
+      - ${CONF_DIR-./conf}/caddy/Caddyfile:/etc/caddy/Caddyfile
+      - ${CONF_DIR-./conf}/caddy/401.json:/srv/401.json
       - ${DATA_DIR-./data}/caddy:/data/caddy
-    {% if publish_locally %}
+    # Removed in v2, defaulting to 443
+    #{% if publish_locally %}
+    #ports:
+    #  - "443:443"
+    #{% endif %}
     ports:
       - "443:443"
-    {% endif %}
+      - "443:443/udp"
     networks:
       - {{network_name}}
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
+    #Removed in v2, defaulting to
+    #extra_hosts:
+    #  - "host.docker.internal:host-gateway"
   #--- Cloudflared ---
   {{cloudflared_service_name}}:
     image: cloudflare/cloudflared
@@ -57,7 +101,7 @@ services:
     depends_on:
       - {{caddy_service_name}}
     volumes:
-      - ./conf/cloudflared/config.yaml:/etc/cloudflared/config.yml
+      - ${CONF_DIR-./conf}/cloudflared/config.yaml:/etc/cloudflared/config.yml
       - ${DATA_DIR-./data}/cloudflared/credentials.json:/etc/cloudflared/credentials.json
     command: tunnel --config /etc/cloudflared/config.yml run #--loglevel debug run
     networks:
