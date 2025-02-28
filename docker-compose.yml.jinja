@@ -90,6 +90,7 @@ services:
       - ${CONF_DIR-./conf}/caddy/Caddyfile:/etc/caddy/Caddyfile
       - ${CONF_DIR-./conf}/caddy/401.json:/srv/401.json
       - ${DATA_DIR-./data}/caddy:/data/caddy
+      - ${DATA_DIR-./data}/caddy/var/log:/var/log/
     # Removed in v2, defaulting to 443
     #{% if publish_locally %}
     #ports:
