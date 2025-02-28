@@ -1,3 +1,12 @@
+{
+        log {
+                output file /var/log/access.log {
+                        roll_size 1gb
+                        roll_keep 5
+                        roll_keep_for 720h
+                }
+        }
+}
 *.$DOMAIN_NAME:443 {
 	tls {
 		dns cloudflare {$CLOUDFLARE_API_TOKEN}
