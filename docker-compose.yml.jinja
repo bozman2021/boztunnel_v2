@@ -33,8 +33,8 @@ services:
     ports:
       - 8080:8080    
     networks:
-      - {{network_name}}
-          ipv4_address: 192.168.22.50    
+      {{network_name}}:
+        ipv4_address: 192.168.22.50    
     #Removed in v2, defaulting to
     #extra_hosts:
     #  - "host.docker.internal:host-gateway"
@@ -56,8 +56,8 @@ services:
       POSTGRES_HOST_AUTH_METHOD: "trust"
       PGDATA: /var/lib/postgresql/data/pgdata
     networks:
-      - {{network_name}}
-          ipv4_address: 192.168.22.15
+      {{network_name}}:
+        ipv4_address: 192.168.22.15
       
   #--- litellm ---
   {{llm_service_name}}:
@@ -75,8 +75,8 @@ services:
     environment:
       - DATABASE_URL=postgresql://postgres:${DB_SECRET_PWD}@${DB_SERVICE_NAME}:5432/litellm
     networks:
-      - {{network_name}}
-          ipv4_address: 192.168.22.10
+      {{network_name}}:
+        ipv4_address: 192.168.22.10
 
   #--- Caddy ---
   {{caddy_service_name}}:
@@ -109,8 +109,8 @@ services:
       - "443:443"
       - "443:443/udp"
     networks:
-      - {{network_name}}
-          ipv4_address: 192.168.21.5
+      {{network_name}}:
+        ipv4_address: 192.168.21.5
     #Removed in v2, defaulting to
     #extra_hosts:
     #  - "host.docker.internal:host-gateway"
@@ -126,5 +126,5 @@ services:
       - ${DATA_DIR-./data}/cloudflared/credentials.json:/etc/cloudflared/credentials.json
     command: tunnel --config /etc/cloudflared/config.yml run #--loglevel debug run
     networks:
-      - {{network_name}}
-         ipv4_address: 192.168.21.3
+      {{network_name}}:
+        ipv4_address: 192.168.21.3
