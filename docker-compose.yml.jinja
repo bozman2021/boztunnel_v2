@@ -4,10 +4,10 @@ networks:
     driver: ipvlan
     driver_opts:
       parent: enp1s0d1 # the interface on your docker host that it will tunnel through
+      ipvlan_mode: l3 # Layer 3 mode
     ipam:
       config:
         - subnet: 192.168.21.0/24 # your networks subnet
-          
         - subnet: 192.168.22.0/24 # your networks subnet
     name: {{network_name}}
 services:
