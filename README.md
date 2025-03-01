@@ -1,9 +1,14 @@
 With BozTunnel V2, 
 
 Inspired from these sites:
+Local AI
 - **https://brainsteam.co.uk/2024/07/08/ditch-that-chatgpt-subscription-moving-to-pay-as-you-go-ai-usage-with-open-web-ui/**
+Cloudflare tunnels:
 - **https://github.com/mitja/llamatunnel**
+Cloudflare security login:
 - **https://youtu.be/Q5dG8g4-Sx0?t=1164**
+Docker networking
+- **https://www.youtube.com/watch?v=bKFMS5C4CG0**
 
 
 # Installation
@@ -91,6 +96,16 @@ chmod 755 ./data/cloudflared/credentials.json
 **Create Internal Network in Docker**
 ````
 docker network create backend
+````
+***NEW:***
+- https://youtu.be/bKFMS5C4CG0?t=1991
+
+````
+sudo docker network create -d ipvlan \
+> --subnet 192.168.2.0/24 \
+> -o parent=enX0 -o ipvlan_mode=l3 \
+> --subnet 192.168.3.0/24 \
+> cloudl3net
 ````
 
 **Start the Services**
