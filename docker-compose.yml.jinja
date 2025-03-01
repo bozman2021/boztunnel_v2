@@ -7,6 +7,7 @@ networks:
     ipam:
       config:
         - subnet: 192.168.21.0/24 # your networks subnet
+          
         - subnet: 192.168.22.0/24 # your networks subnet
     name: {{network_name}}
 services:
@@ -28,7 +29,7 @@ services:
     # Removed in v2, defaulting to 8080
     # {% if webui_port %}
     # ports:
-    #  - 8080:8080
+    #  - "8080:8080"
     #{% endif %}
     ports:
       - 8080:8080    
@@ -49,7 +50,7 @@ services:
     volumes:
     - ${DATA_DIR-./data}/postgres:/var/lib/postgresql/data
     ports:
-       - 5432:5432
+       - "5432:5432"
     environment:
       POSTGRES_PASSWORD: ${DB_SECRET_PWD}
       POSTGRES_DB: ${DB_NAME}
@@ -67,7 +68,7 @@ services:
     depends_on:
       - {{db_service_name}}
     ports:
-       - 4000:4000
+       - "4000:4000"
     volumes:
      - ${CONF_DIR-./conf}/litellm/config.yaml:/app/config.yaml
     command: --port 4000 --config /app/config.yaml
