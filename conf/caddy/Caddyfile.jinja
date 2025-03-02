@@ -7,18 +7,11 @@
                 }
         }
 }
-(subdomain-log) {
-        log {
-                hostnames {args[0]}
-                output file /var/log/{args[0]}.log
-        }
-}
 *.{{domain_name}}:443 {
 	tls {
 		dns cloudflare {$CLOUDFLARE_API_TOKEN}
 		resolvers 1.1.1.1
 	}
-        import subdomain-log {{domain_name}}
 	@apiValidApiKey {
 		host {{api_subdomain}}.{{domain_name}}
 		header Authorization "Bearer {$OLLAMA_API_KEY}"
@@ -45,20 +38,4 @@
 	log
 }
 
-{{app_subdomain}}.{{domain_name}} {
-	tls {
-		dns cloudflare {$CLOUDFLARE_API_TOKEN}
-		resolvers 1.1.1.1
-	}
-    import subdomain-log *.{{domain_name}}
-    reverse_proxy {{webui_service_name}}:8080
-}
 
-{{api_subdomain}}.{{domain_name}} {
-	tls {
-		dns cloudflare {$CLOUDFLARE_API_TOKEN}
-		resolvers 1.1.1.1
-	}
-    import subdomain-log *.{{domain_name}}
-    reverse_proxy {{llm_service_name}}:4000
-}
