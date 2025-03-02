@@ -1,13 +1,16 @@
 With BozTunnel V2, 
 
 Inspired from these sites:
-Local AI
+
+Local AI <br
+- **https://www.youtube.com/watch?v=E2GIZrsDvuM**
+Local AI <br>
 - **https://brainsteam.co.uk/2024/07/08/ditch-that-chatgpt-subscription-moving-to-pay-as-you-go-ai-usage-with-open-web-ui/**
-Cloudflare tunnels:
+Cloudflare tunnels: <br>
 - **https://github.com/mitja/llamatunnel**
-Cloudflare security login:
+Cloudflare security login: <br>
 - **https://youtu.be/Q5dG8g4-Sx0?t=1164**
-Docker networking
+Docker networking <br>
 - **https://www.youtube.com/watch?v=bKFMS5C4CG0**
 
 
