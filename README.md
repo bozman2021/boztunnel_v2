@@ -32,13 +32,13 @@ python3 -m pipx ensurepath
 pipx install copier
 ```
 
-Note that you probably need to start another terminal after installing pipx to make the pipx command available.
+Note that you probably need to start another terminal after installing ``pipx`` to make the pipx command available.
 
 **Create a Cloudflare API Token**
 
 Create a Cloudflare API token with the permissions to modify the DNS zone. This is needed for the Caddy DNS challenge. Go to the Cloudflare dashboard and create a token as follows:
 
-My Profile > API Tokens > Create Token > Edit Zone DNS > Zone:DNS:Edit > Include:Specific Zone:<DOMAIN_NAME> > Continue to Summary > Create Token
+``My Profile`` > ``API Tokens`` > ``Create Token`` > ``Edit Zone DNS`` > ``Zone:DNS:Edit`` > ``Include:Specific Zone:<DOMAIN_NAME>`` > ``Continue to Summary`` > ``Create Token``
 
 Login with cloudflared on Your Local Machine
 
@@ -80,6 +80,11 @@ cloudflared tunnel route dns $TUNNEL_NAME $APP_SUBDOMAIN.$DOMAIN_NAME
 
 Note that you cannot manage this tunnel on the Cloudflare Dashboard. Instead, you need to use the cloudflared CLI tool to manage the tunnel and the DNS routing, otherwise you won't get the credentials.json file which is required to authenticate the cloudflared service.
 
+**Change Permission**
+````
+chmod 755 ./data/cloudflared/credentials.json
+````
+
 **Create the Project from the Template**
 
 Create the project from the template with copier and answer the questions. If you forgot the tunnel id, you can find it in the data/cloudflared/credentials.json file or see it with cloudflared tunnel list.
@@ -89,22 +94,19 @@ copier copy gh:bozman2021/boztunnel_v2 .
 
 This will create a new directory in the STACK_DIR with the all the files necessary to run the tunnel.
 
-**Change Permission**
-````
-chmod 755 ./data/cloudflared/credentials.json
-````
-**Create Internal Network in Docker**
-````
-docker network create backend
-````
+
 ***NEW:***
+
+_This is built in the Docker Compose file, you ``don't`` have to create this.
+For reference only._
+
 - https://youtu.be/bKFMS5C4CG0?t=1991
 
 ````
 sudo docker network create -d ipvlan \
 > --subnet 192.168.2.0/24 \
-> -o parent=enX0 -o ipvlan_mode=l3 \
 > --subnet 192.168.3.0/24 \
+> -o parent=enX0 -o ipvlan_mode=l3 \
 > cloudl3net
 ````
 
@@ -115,6 +117,17 @@ Change into the project directory and start the services in the foreground:
 ````
 docker compose up --build
 ````
+_in detached mode_
 
+````
+docker compose up --build -d
+````
+
+> [!IMPORTANT]
+> And finally when openwebui is started dont forget to add the API Token key.
+
+![API Token]
+
+(/doc/images/ollamaapi.png)
 
 
