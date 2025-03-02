@@ -11,6 +11,7 @@ networks:
         - subnet: 192.168.22.0/24 # your networks subnet
     name: {{network_name}}
 services:
+
   #--- OpenWebUI  ---
   {{webui_service_name}}:
     image: ghcr.io/open-webui/open-webui:main
@@ -26,19 +27,11 @@ services:
     container_name: {{webui_service_name}}
     volumes:
       - ${DATA_DIR-./data}/open-webui:/app/backend/data
-    # Removed in v2, defaulting to 8080
-    # {% if webui_port %}
-    # ports:
-    #  - "8080:8080"
-    #{% endif %}
     ports:
       - 8080:8080    
     networks:
       {{network_name}}:
-        ipv4_address: 192.168.22.50    
-    #Removed in v2, defaulting to
-    #extra_hosts:
-    #  - "host.docker.internal:host-gateway"
+        ipv4_address: 192.168.22.50   
       
   #--- Postegresql DB ---
   {{db_service_name}}:
@@ -78,7 +71,7 @@ services:
     networks:
       {{network_name}}:
         ipv4_address: 192.168.22.10
-
+        
   #--- Caddy ---
   {{caddy_service_name}}:
     build:
@@ -101,20 +94,13 @@ services:
       - ${CONF_DIR-./conf}/caddy/401.json:/srv/401.json
       - ${DATA_DIR-./data}/caddy:/data/caddy
       - ${DATA_DIR-./data}/caddy/var/log:/var/log/
-    # Removed in v2, defaulting to 443
-    #{% if publish_locally %}
-    #ports:
-    #  - "443:443"
-    #{% endif %}
     ports:
       - "443:443"
       - "443:443/udp"
     networks:
       {{network_name}}:
         ipv4_address: 192.168.21.5
-    #Removed in v2, defaulting to
-    #extra_hosts:
-    #  - "host.docker.internal:host-gateway"
+        
   #--- Cloudflared ---
   {{cloudflared_service_name}}:
     image: cloudflare/cloudflared
