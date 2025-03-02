@@ -1,21 +1,23 @@
-With BozTunnel V2, 
+# BozTunnel V2 ㊙️ 😶‍🌫️
 
-**Inspired from these sites:**
+### Inspired from these sites:
 <br>
-Collected over time:
-
-> Local AI <br>
-> https://www.youtube.com/watch?v=E2GIZrsDvuM<br><br>
-Local AI <br>
-> https://brainsteam.co.uk/2024/07/08/ditch-that-chatgpt-subscription-moving-to-pay-as-you-go-ai-usage-with-open-web-ui/ <br><br>
-Cloudflare tunnels:<br>
-> https://github.com/mitja/llamatunnel<br><br>
-Cloudflare security login: <br>
-> https://youtu.be/Q5dG8g4-Sx0?t=1164<br><br>
+Collected over time:<br><br>
+Host your own Local AI <br>
+🎥 (https://www.youtube.com/watch?v=E2GIZrsDvuM)
+<br><br>
+How to replace and use your own local AI <br>
+📖 (https://brainsteam.co.uk/2024/07/08/ditch-that-chatgpt-subscription-moving-to-pay-as-you-go-ai-usage-with-open-web-ui/) <br><br>
+Cloudflare tunnels <br>
+🎥 (https://github.com/mitja/llamatunnel)<br><br>
+Cloudflare security login <br>
+🎥 (https://youtu.be/Q5dG8g4-Sx0?t=1164)<br><br>
 Docker networking <br>
-> https://www.youtube.com/watch?v=bKFMS5C4CG0<br><br>
+🎥(https://www.youtube.com/watch?v=bKFMS5C4CG0)<br><br>
 RAG <br>
-> https://www.youtube.com/watch?v=_R-ff4ZMLC8
+🎥(https://www.youtube.com/watch?v=_R-ff4ZMLC8)<br><br>
+Jinja and Copier example <br>
+🎥(https://github.com/Tecnativa/doodba-copier-template)<br><br>
 
 
 
