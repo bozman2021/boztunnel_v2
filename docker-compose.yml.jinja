@@ -3,7 +3,7 @@ networks:
   {{network_name}}:
     driver: ipvlan
     driver_opts:
-      parent: enp1s0d1 # the interface on your docker host that it will tunnel through
+      parent: enX0 # the interface on your docker host that it will tunnel through
       ipvlan_mode: l3 # Layer 3 mode
     ipam:
       config:
