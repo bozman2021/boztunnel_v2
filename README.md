@@ -1,17 +1,22 @@
 With BozTunnel V2, 
 
-Inspired from these sites:
+**Inspired from these sites:**
+<br>
+Collected over time:
 
-Local AI <br
-- **https://www.youtube.com/watch?v=E2GIZrsDvuM**
+> Local AI <br>
+> https://www.youtube.com/watch?v=E2GIZrsDvuM<br><br>
 Local AI <br>
-- **https://brainsteam.co.uk/2024/07/08/ditch-that-chatgpt-subscription-moving-to-pay-as-you-go-ai-usage-with-open-web-ui/**
-Cloudflare tunnels: <br>
-- **https://github.com/mitja/llamatunnel**
+> https://brainsteam.co.uk/2024/07/08/ditch-that-chatgpt-subscription-moving-to-pay-as-you-go-ai-usage-with-open-web-ui/ <br><br>
+Cloudflare tunnels:<br>
+> https://github.com/mitja/llamatunnel<br><br>
 Cloudflare security login: <br>
-- **https://youtu.be/Q5dG8g4-Sx0?t=1164**
+> https://youtu.be/Q5dG8g4-Sx0?t=1164<br><br>
 Docker networking <br>
-- **https://www.youtube.com/watch?v=bKFMS5C4CG0**
+> https://www.youtube.com/watch?v=bKFMS5C4CG0<br><br>
+RAG <br>
+> https://www.youtube.com/watch?v=_R-ff4ZMLC8
+
 
 
 # Installation
@@ -19,10 +24,16 @@ Docker networking <br>
 **Prerequisites**
 
 - **Docker Desktop**
-- **Ollama** installed on your machine and running on http://localhost:11434
+- **Ollama** installed on your machine and running on http://ollama.local:11434 (in my case on another server)
 - **A Cloudflare account.**
 - **A domain mangaged with Cloudflare DNS.**
-cloudflared installed on your machine. You can install it with **brew install cloudflare/cloudflare/cloudflared** on macOS or **winget install --id Cloudflare.cloudflared** on Windows. For linux, use the package manager of your distribution.
+cloudflared installed on your machine. <br>You can install it with <br> macOS<br> ````brew install cloudflare/cloudflare/cloudflared````<br>Windows<br>````winget install --id Cloudflare.cloudflared````<br>For linux, use the package manager of your distribution.
+
+"wget (https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-arm)<br>
+sudo cp ./cloudflared-linux-arm /usr/local/bin/cloudflared<br>
+sudo chmod +x /usr/local/bin/cloudflared<br>
+cloudflared -v"
+
 - **Python 3.8** or newer
 - **Git 2.27** or newer
 
@@ -45,7 +56,7 @@ Create a Cloudflare API token with the permissions to modify the DNS zone. This 
 
 Login with cloudflared on Your Local Machine
 
-On you local machine, login with cloudflared:
+**On you local machine, login with cloudflared:**
 ````
 cloudflared tunnel login
 ````
@@ -68,7 +79,7 @@ mkdir -p ./data/cloudflared
 
 **Create a Tunnel and DNS Routes**
 
-Create a tunnel and DNS routes for the services. cloudflared tunnel create returns a tunnel id. Please note it as you will need it later. This assumes, you keep the data directory at the default location which is ./data in the project directory. If you want to change location of the data directory, you need to create the directory structure and adjust the path accordingly.
+Create a tunnel and DNS routes for the services. cloudflared tunnel create returns a ``tunnel id``. <br>``Please note it as you will need it later.`` <br>This assumes, you keep the data directory at the default location which is ./data in the project directory. <br>If you want to change location of the data directory, you need to create the directory structure and adjust the path accordingly.
 
 macOS and Linux:
 ````
@@ -125,6 +136,25 @@ _in detached mode_
 ````
 docker compose up --build -d
 ````
+Easy chart over dependecies.
+(https://mermaid.js.org/#/)<br>
+
+```mermaid
+graph TD;
+    Client_on_Internet-->|202|Caddy;
+    Caddy-->OpenWebUI;
+    OpenWebUI-->Ollama;
+    OpenWebUI-->N8N;
+    N8N-->Supabase;
+    N8N-->OpenWebUI;
+    OpenWebUI-->LLMA;
+    Ollama-->LLMA;
+    Ollama-->Supabase;
+    Web4ui-->Supabase;
+    Web4ui-->Documentation;
+    Client_on_Internet-->|403|Ollama_gets_403_error;
+
+```
 
 > [!IMPORTANT]
 > And finally when openwebui is started dont forget to add the API Token key.
