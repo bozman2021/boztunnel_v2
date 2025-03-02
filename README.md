@@ -116,6 +116,9 @@ For reference only._
 
 - https://youtu.be/bKFMS5C4CG0?t=1991
 
+> [!IMPORTANT]
+> YOU MAY NEED TO modprobe 8021q (and/or add it to /etc/modules)
+
 ````
 sudo docker network create -d ipvlan \
 > --subnet 192.168.2.0/24 \
