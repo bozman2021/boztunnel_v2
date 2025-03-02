@@ -126,7 +126,6 @@ docker compose up --build -d
 > [!IMPORTANT]
 > And finally when openwebui is started dont forget to add the API Token key.
 
-![API Token]
-(/doc/images/ollamaapi.png)
+![API Token](/doc/images/ollamaapi.png)
 
 
